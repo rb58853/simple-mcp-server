@@ -1,10 +1,13 @@
 from mcp.server.fastmcp import FastMCP
 import httpx
 
-mcp = FastMCP("example")
+mcp = FastMCP(
+    name="example mcp server",
+    # settings={"host": "127.0.0.1", "port": 8000, "path": "/mcp/example"},
+)
 
 
-@mcp.tool()
+@mcp.tool(description="Calcula el BMI dado un peso y una altura")
 def calculate_bmi(weight_kg: float, height_m: float) -> float:
     """Calculate BMI given weight in kg and height in meters"""
     return weight_kg / (height_m**2)

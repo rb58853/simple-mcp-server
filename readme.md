@@ -1,47 +1,23 @@
 # Simple Python MCP-Server
 
-## Direct Execution
+This repository is based on the official MCP Python SDK repository, with the objective of creating an MCP server in Python using FastMCP. The project incorporates the following basic functionalities:
 
-For advanced scenarios like custom deployments:
+- To facilitate understanding and working with the Model Context Protocol (MCP), from the fundamentals and in an accessible manner
+- To provide a testing platform for MCP clients
+- To integrate the server with FastAPI and offer it as a streamable HTTP service, maintaining a clear separation between the service and the client
 
-```python
-from mcp.server.fastmcp import FastMCP
+The project focuses on the implementation of a simple MCP server that is served through FastAPI with httpstream. This approach represents the recommended methodology for creating MCP servers. To explore other implementation forms and server services, it is recommended to consult [the official documentation](https://github.com/modelcontextprotocol/python-sdk).
 
-mcp = FastMCP("My App")
+### What is MCP?
 
-if __name__ == "__main__":
-    mcp.run()
-```
+The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) lets you build servers that expose data and functionality to LLM applications in a secure, standardized way. Think of it like a web API, but specifically designed for LLM interactions. MCP servers can:
 
-Run it with:
+- Expose data through Resources (think of these sort of like GET endpoints; they are used to load information into the LLM's context)
+- Provide functionality through Tools (sort of like POST endpoints; they are used to execute code or otherwise produce a side effect)
+- Define interaction patterns through Prompts (reusable templates for LLM interactions)
+- And more!
 
-```shell
-python server.py
-# or
-mcp run server.py
-```
-
-## Development Mode
-
-The fastest way to test and debug your server is with the MCP Inspector:
-
-```shell
-mcp dev server.py
-
-# Add dependencies
-mcp dev server.py --with pandas --with numpy
-
-# Mount local code
-mcp dev server.py --with-editable .
-```
-
-## Install Server in [Claude](https://claude.ai/download)
-
-```shell
-mcp install main.py
-```
-
-# Streamable HTTP Transport
+## Streamable HTTP Transport
 
 _Note: Streamable HTTP transport is superseding SSE transport for production deployments._
 
@@ -88,7 +64,7 @@ def add_two(n: int) -> int:
 ```
 
 ```python
-# main.py
+# src/fast_api/api.py
 import contextlib
 from fastapi import FastAPI
 from mcp.echo import echo
@@ -109,8 +85,29 @@ app.mount("/echo", echo.mcp.streamable_http_app())
 app.mount("/math", math.mcp.streamable_http_app())
 ```
 
-# Run Server in Fastapi
+```python
+# main
+from src.fast_api.api import app
+```
+
+## Run Step by Step
+
+### 1. Requirements
+
+To set up the project, it is necessary to install the required dependencies. Execute the following command in the terminal:
+
+```shell
+pip install -r requirements.txt
+```
+
+### 2. Run Server
+
+Once the dependencies have been installed, the server can be launched in the terminal using the following command:
 
 ```shell
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
+
+### 3. Run Client
+
+Once the server is running correctly on the system, [the testing client](tests/client.py) can be executed as a Python file to verify functionality.

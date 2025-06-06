@@ -20,6 +20,9 @@ async def main():
             # Call a tool
             tool_result = await session.call_tool("add", {"a": 12, "b": 21})
             print(tool_result)
+            
+            resource_result = await session.read_resource("resource://number/text/1")
+            print(resource_result)
 
 
 if __name__ == "__main__":

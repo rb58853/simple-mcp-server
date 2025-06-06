@@ -17,11 +17,15 @@ async def main():
             # List available tools
             tools = await session.list_tools()
 
+            # List available resources
+            tools = await session.list_resources()
+
             # Call a tool
             tool_result = await session.call_tool("add", {"a": 12, "b": 21})
             print(tool_result)
-            
-            resource_result = await session.read_resource("resource://number/text/1")
+
+            # Read a resource
+            resource_result = await session.read_resource("data://user-profile/14516")
             print(resource_result)
 
 

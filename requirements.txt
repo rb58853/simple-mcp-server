@@ -1,2 +1,3 @@
 fastmcp
+fastapi
 "mcp[cli]"

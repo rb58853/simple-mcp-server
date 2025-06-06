@@ -1,3 +1,1 @@
-from src.server import mcp
-
-# mcp.run()
+from src.fast_api.api import app

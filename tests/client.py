@@ -1,0 +1,25 @@
+from mcp.client.streamable_http import streamablehttp_client
+from mcp import ClientSession
+
+
+async def main():
+    # Connect to a streamable HTTP server
+    async with streamablehttp_client("http://0.0.0.0:8000/server/mcp") as (
+        read_stream,
+        write_stream,
+        _,
+    ):
+        # Create a session using the client streams
+        async with ClientSession(read_stream, write_stream) as session:
+            # Initialize the connection
+            await session.initialize()
+            
+            # List available resources
+            resources = await session.list_resources()
+
+            # List available tools
+            tools = await session.list_tools()
+            
+            # Call a tool
+            tool_result = await session.call_tool("add", {"a": 12, "b": 21})
+            print(tool_result)

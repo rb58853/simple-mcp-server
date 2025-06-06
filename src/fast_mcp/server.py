@@ -4,6 +4,7 @@ import httpx
 # Create an MCP server
 mcp = FastMCP(name="Server", stateless_http=True)
 
+
 # Add an addition tool
 @mcp.tool()
 def add(a: int, b: int) -> int:

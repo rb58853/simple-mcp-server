@@ -6,7 +6,7 @@ mcp = FastMCP(name="Server", stateless_http=True)
 
 
 # Add an addition tool
-@mcp.tool()
+@mcp.tool(description="Suma dos numeros, a y b, pasados por parametros")
 def add(a: int, b: int) -> int:
     """Add two numbers"""
     return a + b

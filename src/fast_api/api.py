@@ -26,11 +26,7 @@ async def redirect_to_docs():
     help = {
         "mcp root": {
             "path": "/server/mcp",
-            "description": "Ruta de la raiz del servidor MCP",
-        },
-        "calculate_bmi": {
-            "path": "....",
-            "description": "Calcula bmi dado un peso y una altura",
-        },
+            "description": "Example mcp server root path",
+        }
     }
     return help

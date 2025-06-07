@@ -42,7 +42,6 @@ async def get_user_profile(user_id: str):  # -> dict:
     name="points_data_analyze",
     description="Creates a prompt asking for analysis of numerical data",
 )
-def analyze_data(data_points: list[float]) -> str:
+def analyze_data(data_points: str) -> str:
     """creates a prompt asking for analysis of numerical data"""
-    formatted_data = ", ".join(str(point) for point in data_points)
-    return f"analyze these data points: {formatted_data}"
+    return f"analyze these data points: {data_points[1:-1]}"

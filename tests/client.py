@@ -16,17 +16,24 @@ async def main():
 
             # List available tools
             tools = await session.list_tools()
-
             # List available resources
-            resources = await session.list_resources()
+            resources = await session.list_resource_templates()
+            # List available prompts
+            promts = await session.list_prompts()
 
             # Call a tool
             tool_result = await session.call_tool("add", {"a": 12, "b": 21})
             print(tool_result)
-
             # Read a resource
             resource_result = await session.read_resource("data://user-profile/14516")
             print(resource_result)
+
+            # Get prompt
+            prompt = await session.get_prompt(
+                "points_data_analyze",
+                {"data_points": "[1, 2, 3, 4, 5]"},
+            )
+            print(prompt)
 
 
 if __name__ == "__main__":

@@ -10,7 +10,10 @@ mcp = FastMCP(
 
 
 # Add an addition tool
-@mcp.tool(description="Add two integer numbers")
+@mcp.tool(
+    name="add",
+    description="Add two integer numbers",
+)
 async def add(a: int, b: int) -> int:
     """Add two numbers"""
     return a + b
@@ -18,18 +21,28 @@ async def add(a: int, b: int) -> int:
 
 @mcp.resource(
     uri="data://user-profile/{user_id}",
-    name="UserProfile",
+    name="user_profile",
     description="Gets the user profile information for user_id",
     mime_type="application/json",
 )
-async def get_user_profile(user_id: str) -> dict:
+async def get_user_profile(user_id: str):  # -> dict:
     """Gets the user profile information for user_id"""
 
     # TODO: Implement any logic here. Eg. database call or request profile
     # information from your user auth system.
 
     return {
-        f"user_id": {user_id},
+        "user_id": str(user_id),
         "user_name": "Raul Beltran",
         "email": "rb58853.gmail.com",
     }
+
+
+@mcp.prompt(
+    name="points_data_analyze",
+    description="Creates a prompt asking for analysis of numerical data",
+)
+def analyze_data(data_points: list[float]) -> str:
+    """creates a prompt asking for analysis of numerical data"""
+    formatted_data = ", ".join(str(point) for point in data_points)
+    return f"analyze these data points: {formatted_data}"

@@ -18,7 +18,7 @@ async def main():
             tools = await session.list_tools()
 
             # List available resources
-            tools = await session.list_resources()
+            resources = await session.list_resources()
 
             # Call a tool
             tool_result = await session.call_tool("add", {"a": 12, "b": 21})

@@ -111,3 +111,11 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ### 3. Run Client
 
 Once the server is running correctly on the system, [the testing client](tests/client.py) can be executed as a Python file to verify functionality.
+
+## Docker
+
+You also can use docker (and docker compose) for mount an container of this server:
+
+```shell
+docker compose -f docker-compose.yml up -d --force-recreate
+```

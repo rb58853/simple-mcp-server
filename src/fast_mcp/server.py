@@ -8,15 +8,21 @@ mcp = FastMCP(
     stateless_http=True,
 )
 
-
-# Add an addition tool
 @mcp.tool(
-    name="add",
-    description="Add two integer numbers",
+    name="set_user_profile",
+    description="Set the user profile information in database from user data",
 )
-async def add(a: int, b: int) -> int:
-    """Add two numbers"""
-    return a + b
+async def set_user_profile(data: dict[str, any]) -> dict[str, any]:
+    """Set the user profile information in database for user_id"""
+
+    # TODO: Implement any logic here. Eg. database call or request profile
+    # information from your user auth system.
+
+    return {
+        "status": "success",
+        "message": "User added to dataset successfully",
+        "data": data,
+    }
 
 
 @mcp.resource(
@@ -25,7 +31,7 @@ async def add(a: int, b: int) -> int:
     description="Gets the user profile information for user_id",
     mime_type="application/json",
 )
-async def get_user_profile(user_id: str):  # -> dict:
+async def get_user_profile(user_id: str) -> dict[str, any]:
     """Gets the user profile information for user_id"""
 
     # TODO: Implement any logic here. Eg. database call or request profile

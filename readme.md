@@ -1,21 +1,36 @@
 # Simple Python MCP-Server
 
+<div align = center>
+
+<!-- [![Version](https://img.shields.io/pypi/v/simple-mcp-server?color=%2334D058&label=Version)](https://pypi.org/project/simple-mcp-server) -->
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Last commit](https://img.shields.io/github/last-commit/rb58853/simple-mcp-server.svg?style=flat)](https://github.com/rb58853/simple-mcp-server/commits)
+[![Commit activity](https://img.shields.io/github/commit-activity/m/rb58853/simple-mcp-server)](https://github.com/rb58853/simple-mcp-server/commits)
+[![Stars](https://img.shields.io/github/stars/rb58853/simple-mcp-server?style=flat&logo=github)](https://github.com/rb58853/simple-mcp-server/stargazers)
+[![Forks](https://img.shields.io/github/forks/rb58853/simple-mcp-server?style=flat&logo=github)](https://github.com/rb58853/simple-mcp-server/network/members)
+[![Watchers](https://img.shields.io/github/watchers/rb58853/simple-mcp-server?style=flat&logo=github)](https://github.com/rb58853/simple-mcp-server)
+[![Contributors](https://img.shields.io/github/contributors/rb58853/simple-mcp-server)](https://github.com/rb58853/simple-mcp-server/graphs/contributors)
+
+</div>
+
+A python implementation of the **Model Context Protocol (MCP)** server with `fastmcp` and `fastapi`.
+
+## Table of Contents
+
+* [Overview](#overview)
+* [Streamable HTTP Transport](#streamable-http-transport)
+* [Installation](#installation)
+* [License](#license)
+
+## Overview
+
 This repository is based on the official MCP Python SDK repository, with the objective of creating an MCP server in Python using FastMCP. The project incorporates the following basic functionalities:
 
-- To facilitate understanding and working with the Model Context Protocol (MCP), from the fundamentals and in an accessible manner
-- To provide a testing platform for MCP clients
-- To integrate the server with FastAPI and offer it as a streamable HTTP service, maintaining a clear separation between the service and the client
+* To facilitate understanding and working with the Model Context Protocol (MCP), from the fundamentals and in an accessible manner
+* To provide a testing platform for MCP clients
+* To integrate the server with FastAPI and offer it as a streamable HTTP service, maintaining a clear separation between the service and the client
 
 The project focuses on the implementation of a simple MCP server that is served through FastAPI with httpstream. This approach represents the recommended methodology for creating MCP servers. To explore other implementation forms and server services, it is recommended to consult [the official documentation](https://github.com/modelcontextprotocol/python-sdk).
-
-### What is MCP?
-
-The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) lets you build servers that expose data and functionality to LLM applications in a secure, standardized way. Think of it like a web API, but specifically designed for LLM interactions. MCP servers can:
-
-- Expose data through Resources (think of these sort of like GET endpoints; they are used to load information into the LLM's context)
-- Provide functionality through Tools (sort of like POST endpoints; they are used to execute code or otherwise produce a side effect)
-- Define interaction patterns through Prompts (reusable templates for LLM interactions)
-- And more!
 
 ## Streamable HTTP Transport
 
@@ -23,28 +38,16 @@ _Note: Streamable HTTP transport is superseding SSE transport for production dep
 
 ```python
 from mcp.server.fastmcp import FastMCP
-
-# Stateful server (maintains session state)
-mcp = FastMCP("StatefulServer")
-
 # Stateless server (no session persistence)
 mcp = FastMCP("StatelessServer", stateless_http=True)
-
-# Stateless server (no session persistence, no sse stream with supported client)
-mcp = FastMCP("StatelessServer", stateless_http=True, json_response=True)
-
-# Run server with streamable_http transport
-mcp.run(transport="streamable-http")
 ```
 
-### You can mount multiple FastMCP servers in a FastAPI application
+You can mount multiple FastMCP servers in a FastAPI application
 
 ```python
 # echo.py
 from mcp.server.fastmcp import FastMCP
-
 mcp = FastMCP(name="EchoServer", stateless_http=True)
-
 
 @mcp.tool(description="A simple echo tool")
 def echo(message: str) -> str:
@@ -54,9 +57,7 @@ def echo(message: str) -> str:
 ```python
 # math.py
 from mcp.server.fastmcp import FastMCP
-
 mcp = FastMCP(name="MathServer", stateless_http=True)
-
 
 @mcp.tool(description="A simple add tool")
 def add_two(n: int) -> int:
@@ -64,7 +65,7 @@ def add_two(n: int) -> int:
 ```
 
 ```python
-# src/fast_api/api.py
+# fast_api.py
 import contextlib
 from fastapi import FastAPI
 from mcp.echo import echo
@@ -85,37 +86,44 @@ app.mount("/echo", echo.mcp.streamable_http_app())
 app.mount("/math", math.mcp.streamable_http_app())
 ```
 
-```python
-# main
-from src.fast_api.api import app
-```
+## Installation
 
-## Run Step by Step
+To set up the development environment, execute the following commands:
 
-### 1. Requirements
+1. Install project dependencies:
 
-To set up the project, it is necessary to install the required dependencies. Execute the following command in the terminal:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-```shell
-pip install -r requirements.txt
-```
+2. Start the server in development mode:
 
-### 2. Run Server
+   ```bash
+   uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+   ```
 
-Once the dependencies have been installed, the server can be launched in the terminal using the following command:
+3. Run tests:
 
-```shell
-uvicorn main:app --host 0.0.0.0 --port 8000 --reload
-```
+   ```bash
+   python tests/client.py
+   ```
 
-### 3. Run Client
+## Docker Deployment
 
-Once the server is running correctly on the system, [the testing client](tests/client.py) can be executed as a Python file to verify functionality.
+The project can be run using Docker Compose:
 
-## Docker
-
-You also can use docker (and docker compose) for mount an container of this server:
-
-```shell
+```bash
 docker compose -f docker-compose.yml up -d --force-recreate
 ```
+
+## License
+
+MIT License. See [`license`](license).
+
+<!-- 
+## Características Principales
+
+- API RESTful con FastAPI
+- Soporte para desarrollo local y producción
+- Configuración Docker para contenerización
+- Sistema de pruebas integrado -->

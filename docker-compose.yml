@@ -1,11 +1,13 @@
 name: "Example MCP Server"
 
 services:
-  server_mcp:
-    container_name: example_mcp_server
+  server-mcp:
+    container_name: example-mcp-server
     build:
       context: .
       dockerfile: dockerfile
+      tags:
+        - example-mcp-server
     restart: unless-stopped
     ports:
       - 8000:8000

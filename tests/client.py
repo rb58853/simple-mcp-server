@@ -22,8 +22,18 @@ async def main():
             promts = await session.list_prompts()
 
             # Call a tool
-            tool_result = await session.call_tool("add", {"a": 12, "b": 21})
+            tool_result = await session.call_tool(
+                "set_user_profile",
+                {
+                    "data": {
+                        "user_id": "1111",
+                        "user_name": "Raul Beltran",
+                        "email": "rb58853@gmail.com",
+                    }
+                },
+            )
             print(tool_result)
+
             # Read a resource
             resource_result = await session.read_resource("data://user-profile/14516")
             print(resource_result)

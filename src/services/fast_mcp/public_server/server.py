@@ -6,7 +6,7 @@ def public_server() -> FastMCP:
     # Create an MCP server
     mcp = FastMCP(
         name="public-example-server",
-        instructions="This server specializes in operations with numbers, such as addition and text conversion.",
+        instructions="This server specializes in public operations of user profiles data",
         stateless_http=True,
     )
 

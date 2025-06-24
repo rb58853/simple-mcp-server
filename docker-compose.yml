@@ -2,6 +2,7 @@ name: "Example MCP Server"
 
 services:
   server-mcp:
+    image: example-mcp-server
     container_name: example-mcp-server
     build:
       context: .

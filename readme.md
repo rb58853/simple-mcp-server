@@ -19,7 +19,7 @@ A python implementation of the **Model Context Protocol (MCP)** server with `fas
 * [Overview](#overview)
 * [Streamable HTTP Transport](#streamable-http-transport)
 * [Deployment](#deployment)
-* [Deployment](#deployment)
+* [Use Case](#use-case)
 * [License](#license)
 
 ## Overview
@@ -121,7 +121,7 @@ To confirm that the server is operating correctly, open a web browser and naviga
 The project can be run using Docker Compose:
 
 ```bash
-docker compose -f docker-compose.yml up -d --force-recreate
+docker compose -f docker-compose.yml up -d --build --force-recreate
 ```
 
 ## Use Case
@@ -129,25 +129,32 @@ docker compose -f docker-compose.yml up -d --force-recreate
 To verify the correct operation of this server, it is recommended to install the [`mcp-llm-client`](https://github.com/rb58853/python-mcp-client) package and create a project based on it by following the steps outlined below:
 > ⚠️ **Configuration Note:** To use this chat with an LLM, an OpenAI API key is required. If you do not have one, you can create it by following the instructions on the [official OpenAI page](https://platform.openai.com/login).
 
-#### 1. Server Deployment
+**1. Server Deployment**
 
 Deploy this server according to the instructions provided in the [Deployment](#deployment) section. This step is essential, as the server must be running either locally or on a cloud server. Once the server is deployed, it can be used through the MCP client.
 
-#### 2. Install the package
+<!-- **2. Install the package**
 
 ```shell
 pip install mcp-llm-client
-```
+``` -->
 
-#### 3. Clone a template from GitHub
+**2. Clone a template from GitHub**
 
 Clone a template from GitHub that provides a simple base to use the MCP client:
 
 ```shell
-git clone <https://github.com/rb58853/template_mcp_llm_client.git>
+# clone repo
+git clone https://github.com/rb58853/template_mcp_llm_client.git
+
+# change to project dir
+cd template_mcp_llm_client
+
+# install dependencies
+pip install -r requirements.txt
 ```
 
-#### 4. Add Server to Configuration
+**3. Add Server to Configuration**
 
 In the cloned project, locate the `config.json` file in the root directory and add the following configuration inside the **mcp_servers** object:
 
@@ -165,19 +172,13 @@ In the cloned project, locate the `config.json` file in the root directory and a
 
 > 💡 **Hint:** Once the server is deployed, you can access its root URL to obtain help. This section provides the exact configuration needed to add the server to the MCP client. For example, opening `http://0.0.0.0:8000` in a browser will redirect to the help page.
 
-#### 5. Execution
+**4. Execution**
 
 Follow the instructions in the `readme.md` file of the cloned project to run a local chat using this MCP server. Typically, this is done by running the following command in the console:
 
 ```shell
-# Change to project dir
-cd template_mcp_llm_client
-
-# Install dependencies
-pip install -r requirements.txt
-
 # Run app (after set OPENAI-API-KEY and add servers to config)
-python main.py
+python3 main.py
 ```
 
 ### Bibliography

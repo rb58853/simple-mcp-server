@@ -99,7 +99,7 @@ To set up the development environment, execute the following commands:
 2. Start the server in development mode:
 
    ```bash
-   uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+   uvicorn src.fast_api.api:app --host 0.0.0.0 --port 8000 --reload
    ```
 
 3. Run tests:
@@ -119,11 +119,3 @@ docker compose -f docker-compose.yml up -d --force-recreate
 ## License
 
 MIT License. See [`license`](license).
-
-<!-- 
-## Características Principales
-
-- API RESTful con FastAPI
-- Soporte para desarrollo local y producción
-- Configuración Docker para contenerización
-- Sistema de pruebas integrado -->

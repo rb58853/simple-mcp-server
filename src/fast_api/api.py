@@ -1,6 +1,6 @@
 import contextlib
 from fastapi import FastAPI
-from ..fast_mcp import server
+from ..fast_mcp.public_server import server
 from fastapi.responses import RedirectResponse
 
 

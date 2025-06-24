@@ -1,1 +1,0 @@
-from src.fast_api.api import app

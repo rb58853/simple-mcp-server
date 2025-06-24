@@ -1,6 +1,6 @@
 """html doc for expose in host"""
 
-from ..fast_api.environment import FastApiEnvironment
+from ..environment import EnvAPI
 
 end: str = """
 </html>
@@ -203,15 +203,15 @@ base: str = """<html>
     <h1 id="services">Services</h1>
     <h2 id="tools">Tools</h2>
     <ul>
-        <li><code>set_user_profile:<code> action.</li>
+        <li><code>set_user_profile:</code> Set the user profile information in database for user_id.</li>
     </ul>
     <h2 id="resoruces">Resoruces</h2>
     <ul>
-        <li><code>get_user_profile:<code> action.</li>
+        <li><code>get_user_profile:</code> Gets the user profile information for user_id.</li>
     </ul>
     <h2 id="prompts">Prompts</h2>
     <ul>
-        <li><code>prompt:<code> action.</li>
+        <li><code>prompt:</code> action.</li>
     </ul>
     
 </body>
@@ -224,7 +224,7 @@ def server_info(
     tools: list[str],
     is_auth: bool = False,
 ) -> str:
-    http_path = f"{FastApiEnvironment.DNS if FastApiEnvironment.DNS else FastApiEnvironment.BASE_IP}/{name}/mcp"
+    http_path = f"{EnvAPI.DNS if EnvAPI.DNS else EnvAPI.BASE_IP}/{name}/mcp"
     text: str = f"""
     <body>
     <h2>MCP server {name}</h2>
@@ -241,11 +241,11 @@ def server_info(
         f""" <h3>Server Config</h3>
     You can use <a href="https://github.com/rb58853/python-mcp-client">mcp-llm-client</a> and paste this configuration
     <pre><code class="lang-python">
-    <span class="hljs-string">"supabase_{name}"</span>: """
+    <span class="hljs-string">"{name}"</span>: """
         + "{"
         + f"""
         <span class="hljs-string">"http"</span>: <span class="hljs-string">"{http_path}"</span>,
-        <span class="hljs-string">"name"</span>: <span class="hljs-string">"supabase_{name}"</span>,
+        <span class="hljs-string">"name"</span>: <span class="hljs-string">"{name}"</span>,
         <span class="hljs-string">"description"</span>: <span class="hljs-string">"{description}"</span>
     """
         + """}

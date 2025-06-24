@@ -12,12 +12,12 @@ def create_app():
     async def lifespan(app: FastAPI):
         async with contextlib.AsyncExitStack() as stack:
             for server in EnvAPI.SERVERS:
-                await stack.enter_async_context(server.mcp.session_manager.run())
+                await stack.enter_async_context(server.session_manager.run())
             yield
 
     app = FastAPI(lifespan=lifespan)
     for server in EnvAPI.SERVERS:
-        app.mount(f"/{server.name}", server.mcp.streamable_http_app())
+        app.mount(f"/{server.name}", server.streamable_http_app())
 
     @app.get("/", include_in_schema=False)
     async def redirect_to_help():
@@ -32,7 +32,7 @@ def create_app():
                     server_info(
                         name=server.name,
                         description=server.instructions,
-                        tools=server._tool_manager.list_tools(),
+                        tools=[tool.name for tool in server._tool_manager.list_tools()],
                     )
                     + "\n"
                 )

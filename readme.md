@@ -2,7 +2,6 @@
 
 <div align = center>
 
-<!-- [![Version](https://img.shields.io/pypi/v/simple-mcp-server?color=%2334D058&label=Version)](https://pypi.org/project/simple-mcp-server) -->
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Last commit](https://img.shields.io/github/last-commit/rb58853/simple-mcp-server.svg?style=flat)](https://github.com/rb58853/simple-mcp-server/commits)
 [![Commit activity](https://img.shields.io/github/commit-activity/m/rb58853/simple-mcp-server)](https://github.com/rb58853/simple-mcp-server/commits)
@@ -19,7 +18,8 @@ A python implementation of the **Model Context Protocol (MCP)** server with `fas
 
 * [Overview](#overview)
 * [Streamable HTTP Transport](#streamable-http-transport)
-* [Installation](#installation)
+* [Deployment](#deployment)
+* [Deployment](#deployment)
 * [License](#license)
 
 ## Overview
@@ -32,9 +32,11 @@ This repository is based on the official MCP Python SDK repository, with the obj
 
 The project focuses on the implementation of a simple MCP server that is served through FastAPI with httpstream. This approach represents the recommended methodology for creating MCP servers. To explore other implementation forms and server services, it is recommended to consult [the official documentation](https://github.com/modelcontextprotocol/python-sdk).
 
-## Streamable HTTP Transport
+## Transport
 
-_Note: Streamable HTTP transport is superseding SSE transport for production deployments._
+### Streamable HTTP Transport
+
+>Note: Streamable HTTP transport is superseding SSE transport for production deployments.
 
 ```python
 from mcp.server.fastmcp import FastMCP
@@ -86,26 +88,28 @@ app.mount("/echo", echo.mcp.streamable_http_app())
 app.mount("/math", math.mcp.streamable_http_app())
 ```
 
-## Installation
+## Deployment
+
+### Local Deployment
 
 To set up the development environment, execute the following commands:
 
-1. Install project dependencies:
+**1. Install project dependencies**
 
    ```bash
    pip install -r requirements.txt
    ```
 
-2. Start the server in development mode:
+**2. Start the server in development mode**
 
    ```bash
-   uvicorn src.fast_api.api:app --host 0.0.0.0 --port 8000 --reload
+   uvicorn src.run:app --host 0.0.0.0 --port 8000 --reload
    ```
 
-3. Run tests:
+**3. Run tests**
 
    ```bash
-   python tests/client.py
+   python tests/run.py
    ```
 
 ## Docker Deployment
@@ -114,6 +118,14 @@ The project can be run using Docker Compose:
 
 ```bash
 docker compose -f docker-compose.yml up -d --force-recreate
+```
+
+## Use Case
+
+Para probar el uso correcto de este servidor puedes instalar el paquete `mcp-llm-client` siguiendo los siguientes pasos:
+
+```shell
+pip install mcp-llm-client
 ```
 
 ## License

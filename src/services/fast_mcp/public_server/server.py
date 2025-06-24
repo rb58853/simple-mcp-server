@@ -8,6 +8,7 @@ mcp = FastMCP(
     stateless_http=True,
 )
 
+
 @mcp.tool(
     name="set_user_profile",
     description="Set the user profile information in database from user data",

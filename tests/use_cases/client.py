@@ -1,10 +1,13 @@
 from mcp.client.streamable_http import streamablehttp_client
 from mcp import ClientSession
+import asyncio
 
 
-async def main():
+async def open_session():
     # Connect to a streamable HTTP server
-    async with streamablehttp_client("http://0.0.0.0:8000/server/mcp") as (
+    async with streamablehttp_client(
+        "http://0.0.0.0:8000/public-example-server/mcp"
+    ) as (
         read_stream,
         write_stream,
         _,
@@ -32,21 +35,17 @@ async def main():
                     }
                 },
             )
-            print(tool_result)
 
             # Read a resource
             resource_result = await session.read_resource("data://user-profile/14516")
-            print(resource_result)
 
             # Get prompt
             prompt = await session.get_prompt(
                 "points_data_analyze",
                 {"data_points": "[1, 2, 3, 4, 5]"},
             )
-            print(prompt)
 
 
-if __name__ == "__main__":
-    import asyncio
-
-    asyncio.run(main())
+def run():
+    print("Testing simple client server")
+    asyncio.run(open_session())

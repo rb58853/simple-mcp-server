@@ -17,7 +17,7 @@ def create_app():
 
     app = FastAPI(lifespan=lifespan)
     for server in EnvAPI.SERVERS:
-        app.mount("/server", server.mcp.streamable_http_app())
+        app.mount(f"/{server.name}", server.mcp.streamable_http_app())
 
     @app.get("/", include_in_schema=False)
     async def redirect_to_help():

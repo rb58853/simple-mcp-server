@@ -1,5 +1,4 @@
 from mcp.server.fastmcp import FastMCP
-import httpx
 
 
 def public_server() -> FastMCP:
@@ -41,16 +40,25 @@ def public_server() -> FastMCP:
         return {
             "user_id": str(user_id),
             "user_name": "Raul Beltran",
-            "email": "rb58853.gmail.com",
+            "email": "rb58853@gmail.com",
         }
 
-    @mcp.prompt(
-        name="points_data_analyze",
-        description="Creates a prompt asking for analysis of numerical data",
-    )
-    def analyze_data(data_points: str) -> str:
-        """creates a prompt asking for analysis of numerical data"""
-        return f"analyze these data points: {data_points[1:-1]}"
+    # @mcp.prompt(
+    #     name="summarize_user_profile",
+    #     description="Summarizes the user profile based on the provided data.",
+    # )
+    # async def summarize_user_profile(user_name: str, email: str):
+    #     return {
+    #         "messages": [
+    #             {
+    #                 "role": "user",
+    #                 "content": {
+    #                     "type": "text",
+    #                     "text": f"Summarize the following user profile:\nName: {user_name}\nEmail: {email}",
+    #                 },
+    #             }
+    #         ]
+    #     }
 
     return mcp
 

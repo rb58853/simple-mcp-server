@@ -121,7 +121,7 @@ To confirm that the server is operating correctly, open a web browser and naviga
 The project can be run using Docker Compose:
 
 ```bash
-docker compose -f docker-compose.yml up -d --build --force-recreate
+docker compose -f docker-compose.yml up -d --build
 ```
 
 ## Use Case

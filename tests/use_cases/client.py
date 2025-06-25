@@ -41,8 +41,8 @@ async def open_session():
 
             # Get prompt
             prompt = await session.get_prompt(
-                "points_data_analyze",
-                {"data_points": "[1, 2, 3, 4, 5]"},
+                "summarize_user_profile",
+                {"user_name": "Raul Beltran", "email": "rb58853@gmail.com"},
             )
 
 

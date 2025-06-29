@@ -43,6 +43,11 @@ def create_app():
             logger.error(f"Error al generar docs: {str(e)}")
             raise HTTPException(status_code=500, detail="Error interno del servidor")
 
+    @app.get("/auth", include_in_schema=False)
+    async def auth():
+        print("Entro a lo del auth")
+        return True
+
     return app
 
 

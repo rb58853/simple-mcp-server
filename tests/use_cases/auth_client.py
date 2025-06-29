@@ -6,7 +6,9 @@ import asyncio
 async def open_session():
     # Connect to a streamable HTTP server
     async with streamablehttp_client(
-        "http://0.0.0.0:8000/private-example-server/mcp"
+        url="http://0.0.0.0:8000/private-example-server/mcp",
+        headers=None,
+        auth=None,
     ) as (
         read_stream,
         write_stream,
@@ -15,6 +17,7 @@ async def open_session():
         # Create a session using the client streams
         async with ClientSession(read_stream, write_stream) as session:
             # Initialize the connection
+            ping = await session.send_ping()
             await session.initialize()
 
             # List available tools

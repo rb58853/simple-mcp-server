@@ -43,22 +43,22 @@ def public_server() -> FastMCP:
             "email": "rb58853@gmail.com",
         }
 
-    # @mcp.prompt(
-    #     name="summarize_user_profile",
-    #     description="Summarizes the user profile based on the provided data.",
-    # )
-    # async def summarize_user_profile(user_name: str, email: str):
-    #     return {
-    #         "messages": [
-    #             {
-    #                 "role": "user",
-    #                 "content": {
-    #                     "type": "text",
-    #                     "text": f"Summarize the following user profile:\nName: {user_name}\nEmail: {email}",
-    #                 },
-    #             }
-    #         ]
-    #     }
+    @mcp.prompt(
+        name="summarize_user_profile",
+        description="Summarizes the user profile based on the provided data.",
+    )
+    async def summarize_user_profile(user_name: str, email: str):
+        return {
+            "messages": [
+                {
+                    "role": "user",
+                    "content": {
+                        "type": "text",
+                        "text": f"Summarize the following user profile:\nName: {user_name}\nEmail: {email}",
+                    },
+                }
+            ]
+        }
 
     return mcp
 

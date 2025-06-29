@@ -39,11 +39,11 @@ async def open_session():
             # Read a resource
             resource_result = await session.read_resource("data://user-profile/14516")
 
-            # Get prompt
-            prompt = await session.get_prompt(
-                "summarize_user_profile",
-                {"user_name": "Raul Beltran", "email": "rb58853@gmail.com"},
-            )
+            # # Get prompt
+            # prompt = await session.get_prompt(
+            #     "summarize_user_profile",
+            #     {"user_name": "Raul Beltran", "email": "rb58853@gmail.com"},
+            # )
 
 
 def run():

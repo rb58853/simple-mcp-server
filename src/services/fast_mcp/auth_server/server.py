@@ -56,7 +56,7 @@ def auth_server(settings: ServerSettings = ServerSettings()) -> FastMCP:
         name="set_user_profile",
         description="Set the user profile information in database from user data",
     )
-    async def set_user_profile(data: dict[str, any]) -> dict[str, any]:
+    async def set_user_profile(data: dict) -> dict:
         """Set the user profile information in database for user_id"""
 
         # TODO: Implement any logic here. Eg. database call or request profile

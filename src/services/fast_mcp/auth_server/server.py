@@ -1,38 +1,19 @@
 from mcp.server.fastmcp import FastMCP
 from mcp.server.auth.settings import AuthSettings
-from pydantic import AnyHttpUrl
-
-# from mcp.server.auth.provider import TokenVerifier, TokenInfo
-from mcp.server.auth.provider import OAuthAuthorizationServerProvider
-from pydantic_settings import BaseSettings
+from ...oauth_server.oauth_server import OAuthServer
 
 
-class SimpleSettings(BaseSettings):
-    """Settings for the MCP Resource Server."""
-
-    # Server settings
-    server_url: AnyHttpUrl = AnyHttpUrl("http://localhost:8001")
-
-    # Authorization Server settings
-    auth_server_url: AnyHttpUrl = AnyHttpUrl("http://localhost:9000")
-
-    # MCP settings
-    mcp_scope: str = "user"
-
-
-settings = SimpleSettings()
-
-
-def auth_server() -> FastMCP:
+def auth_server(oauth_server: OAuthServer | None = None) -> FastMCP:
     # Create an MCP server
     mcp = FastMCP(
         name="private-example-server",
         instructions="This server specializes in private operations of user profiles data",
         stateless_http=True,
+        auth_server_provider=oauth_server.oauth_provider,
         auth=AuthSettings(
-            issuer_url=settings.auth_server_url,
-            required_scopes=[settings.mcp_scope],
-            resource_server_url=settings.server_url,
+            issuer_url=oauth_server.server_settings.server_url,
+            required_scopes=[oauth_server.auth_settings.mcp_scope],
+            # resource_server_url=settings.server_url,
         ),
     )
 
@@ -53,6 +34,3 @@ def auth_server() -> FastMCP:
         }
 
     return mcp
-
-
-mcp = auth_server()

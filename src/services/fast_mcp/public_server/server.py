@@ -1,7 +1,11 @@
 from mcp.server.fastmcp import FastMCP
+from ...oauth_server.oauth_server import OAuthServer
 
 
-def public_server() -> FastMCP:
+def public_server(oauth_server: OAuthServer | None = None) -> FastMCP:
+    if oauth_server is not None:
+        raise NotImplementedError()
+
     # Create an MCP server
     mcp = FastMCP(
         name="public-example-server",
@@ -61,6 +65,3 @@ def public_server() -> FastMCP:
         }
 
     return mcp
-
-
-mcp = public_server()

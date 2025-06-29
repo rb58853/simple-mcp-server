@@ -222,9 +222,11 @@ def server_info(
     name: str,
     description: str,
     tools: list[str],
+    expose_url: str,
     is_auth: bool = False,
 ) -> str:
-    http_path = f"{EnvAPI.DNS if EnvAPI.DNS else EnvAPI.BASE_IP}/{name}/mcp"
+    # http_path = f"{EnvAPI.DNS if EnvAPI.DNS else EnvAPI.BASE_IP}/{name}/mcp"
+    http_path = f"{expose_url}/{name}/mcp"
     text: str = f"""
     <body>
     <h2>MCP server {name}</h2>

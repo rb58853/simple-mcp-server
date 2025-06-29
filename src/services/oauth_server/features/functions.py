@@ -6,7 +6,6 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
 from mcp.server.auth.routes import cors_middleware
-from auth_provider.simple_auth_provider import SimpleAuthSettings, SimpleOAuthProvider
 
 logger = logging.getLogger(__name__)
 

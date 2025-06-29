@@ -105,10 +105,6 @@ class OAuthServer:
 
         return self.__routes
 
-    def append_routes_to_fastapi(self, app: FastAPI) -> None:
-        for route in self.routes:
-            app.include_router(route)
-
     def append_new_function(function):
         raise NotImplementedError()
 

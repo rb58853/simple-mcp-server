@@ -1,4 +1,3 @@
-from .services.fast_api.api import create_app
-from fastapi import FastAPI
+from .services.fast_api.api import FastAPP, FastAPI
 
-app:FastAPI = create_app()
+app: FastAPI = FastAPP().create_app()

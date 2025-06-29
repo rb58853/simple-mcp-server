@@ -1,19 +1,54 @@
 from mcp.server.fastmcp import FastMCP
 from mcp.server.auth.settings import AuthSettings
-from ...oauth_server.oauth_server import OAuthServer
+from pydantic import AnyHttpUrl
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+from ...oauth_server.token_verifier.token_verifier import IntrospectionTokenVerifier
 
 
-def auth_server(oauth_server: OAuthServer | None = None) -> FastMCP:
-    # Create an MCP server
-    mcp = FastMCP(
+class ServerSettings(BaseSettings):
+    """Settings for the MCP Server."""
+
+    model_config = SettingsConfigDict(env_prefix="MCP_RESOURCE_")
+
+    # Server settings
+    host: str = "localhost"
+    port: int = 8001
+    server_url: AnyHttpUrl = AnyHttpUrl("http://localhost:8001")
+
+    # Authorization Server settings
+    auth_server_url: AnyHttpUrl = AnyHttpUrl("http://localhost:9000")
+    auth_server_introspection_endpoint: str = "http://localhost:9000/introspect"
+    # No user endpoint needed - we get user data from token introspection
+
+    # MCP settings
+    mcp_scope: str = "user"
+
+    # RFC 8707 resource validation
+    oauth_strict: bool = False
+
+    # def __init__(self, **data):
+    #     """Initialize settings with values from environment variables."""
+    #     super().__init__(**data)
+
+
+def auth_server(settings: ServerSettings = ServerSettings()) -> FastMCP:
+    token_verifier = IntrospectionTokenVerifier(
+        introspection_endpoint=settings.auth_server_introspection_endpoint,
+        server_url=str(settings.server_url),
+        validate_resource=settings.oauth_strict,  # Only validate when --oauth-strict is set
+    )
+
+    mcp: FastMCP = FastMCP(
         name="private-example-server",
         instructions="This server specializes in private operations of user profiles data",
-        stateless_http=True,
-        auth_server_provider=oauth_server.oauth_provider,
+        debug=True,
+        # Auth configuration for RS mode
+        token_verifier=token_verifier,
         auth=AuthSettings(
-            issuer_url=oauth_server.server_settings.server_url,
-            required_scopes=[oauth_server.auth_settings.mcp_scope],
-            # resource_server_url=settings.server_url,
+            issuer_url=settings.auth_server_url,
+            required_scopes=[settings.mcp_scope],
+            resource_server_url=settings.server_url,
         ),
     )
 
@@ -34,3 +69,6 @@ def auth_server(oauth_server: OAuthServer | None = None) -> FastMCP:
         }
 
     return mcp
+
+
+mcp: FastMCP = auth_server()

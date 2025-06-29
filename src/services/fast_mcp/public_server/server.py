@@ -1,11 +1,7 @@
 from mcp.server.fastmcp import FastMCP
-from ...oauth_server.oauth_server import OAuthServer
 
 
-def public_server(oauth_server: OAuthServer | None = None) -> FastMCP:
-    if oauth_server is not None:
-        raise NotImplementedError()
-
+def public_server() -> FastMCP:
     # Create an MCP server
     mcp = FastMCP(
         name="public-example-server",
@@ -17,7 +13,7 @@ def public_server(oauth_server: OAuthServer | None = None) -> FastMCP:
         name="set_user_profile",
         description="Set the user profile information in database from user data",
     )
-    async def set_user_profile(data: dict[str, any]) -> dict[str, any]:
+    async def set_user_profile(data: dict) -> dict:
         """Set the user profile information in database for user_id"""
 
         # TODO: Implement any logic here. Eg. database call or request profile
@@ -35,7 +31,7 @@ def public_server(oauth_server: OAuthServer | None = None) -> FastMCP:
         description="Gets the user profile information for user_id",
         mime_type="application/json",
     )
-    async def get_user_profile(user_id: str) -> dict[str, any]:
+    async def get_user_profile(user_id: str) -> dict:
         """Gets the user profile information for user_id"""
 
         # TODO: Implement any logic here. Eg. database call or request profile
@@ -65,3 +61,6 @@ def public_server(oauth_server: OAuthServer | None = None) -> FastMCP:
         }
 
     return mcp
+
+
+mcp: FastMCP = public_server()

@@ -1,7 +1,4 @@
 """html doc for expose in host"""
-
-from ..environment import EnvAPI
-
 end: str = """
 </html>
 """

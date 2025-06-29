@@ -14,7 +14,7 @@ class FastAppSettings(BaseModel):
     """Public Expose IP"""
     dns: str | None = None
     """Public Expose DNS"""
-    servers: list[FastMCP] = [public_server, auth_server]
+    servers: list[FastMCP] = [public_server]
     """MCP server that will be add to app"""
 
 

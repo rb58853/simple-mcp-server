@@ -4,16 +4,16 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from ...config.logger import logger
 from ._doc.html import base, end, server_info
 from ..fast_mcp.public_server.server import mcp as public_server
-# from ..fast_mcp.auth_server.server import mcp as auth_server
+from ..fast_mcp.private_server.server import mcp as private_server
 from mcp.server.fastmcp import FastMCP
 
 
 class FastAppSettings:
-    expose_url: str = "http://0.0.0.0:8000"
+    expose_url: str = "http://127.0.0.1:8000"
     """Public Expose IP"""
     dns: str | None = None
     """Public Expose DNS"""
-    servers: list[FastMCP] = [public_server]
+    servers: list[FastMCP] = [public_server, private_server]
     """MCP server that will be add to app"""
 
 

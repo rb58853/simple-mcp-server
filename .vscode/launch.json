@@ -5,18 +5,24 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python Debugger: FastAPI",
+            "name": "Python Debugger: FastAPI MCP Servers",
             "type": "debugpy",
             "request": "launch",
             "module": "uvicorn",
             "args": [
-                "src.run:app",
+                "src.app:app",
                 "--port",
                 "8000",
                 "--reload"
             ],
             "jinja": true,
             "justMyCode": false,
+        },
+        {
+            "name": "Python: OAuth Server",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/services/fast_mcp/private_server/oauth_server.py",
         },
         {
             "name": "Python Debugger: Current File",

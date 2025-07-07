@@ -176,7 +176,7 @@ base: str = """<html>
 <span class="hljs-keyword">from</span> mcp <span class="hljs-keyword">import</span> ClientSession
 <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
     <span class="hljs-comment"># Connect to HTTPstream server</span>
-    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> streamablehttp_client(<span class="hljs-string">"http://0.0.0.0:8080/{server_name}/mcp"</span>) <span class="hljs-keyword">as</span> (
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> streamablehttp_client(<span class="hljs-string">"http://127.0.0.1:8080/{server_name}/mcp"</span>) <span class="hljs-keyword">as</span> (
             read_stream,
             write_stream,
             _,

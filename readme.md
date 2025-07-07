@@ -18,6 +18,7 @@ A python implementation of the **Model Context Protocol (MCP)** server with `fas
 
 * [Overview](#overview)
 * [Streamable HTTP Transport](#streamable-http-transport)
+* [Authorization](#oauth)
 * [Deployment](#deployment)
 * [Use Case](#use-case)
 * [License](#license)
@@ -88,6 +89,95 @@ app.mount("/echo", echo.mcp.streamable_http_app())
 app.mount("/math", math.mcp.streamable_http_app())
 ```
 
+## Autorization (OAuth)
+
+For the authorization system, a package offering a simple client-credentials authorization method is used, called [`mcp-oauth`](https://github.com/rb58853/mcp-oauth). This package allows running an OAuth server in parallel with the MCP server. The source code can be found in [oauth_server.py](src/services/fast_mcp/private_server/oauth_server.py).
+
+```python
+# oauth_server.py
+from mcp_oauth import (
+    OAuthServer,
+    SimpleAuthSettings,
+    AuthServerSettings,
+)
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+OAUTH_HOST = "127.0.0.1"
+OAUTH_PORT = 9000
+OAUTH_SERVER_URL = f"http://{OAUTH_HOST}:{OAUTH_PORT}"
+
+
+def run_oauth_server():
+    server_settings: AuthServerSettings = AuthServerSettings(
+        host=OAUTH_HOST,
+        port=OAUTH_PORT,
+        server_url=f"{OAUTH_SERVER_URL}",
+        auth_callback_path=f"{OAUTH_SERVER_URL}/login",
+    )
+    auth_settings: SimpleAuthSettings = SimpleAuthSettings(
+        superusername=os.getenv("SUPERUSERNAME"),
+        superuserpassword=os.getenv("SUPERUSERPASSWORD"),
+        mcp_scope="user",
+    )
+    oauth_server: OAuthServer = OAuthServer(
+        server_settings=server_settings, auth_settings=auth_settings
+    )
+    oauth_server.run_starlette_server()
+
+
+if __name__ == "__main__":
+    run_oauth_server()
+
+```
+
+To start this server, you can open a terminal in the root directory of the project and execute:
+
+```shell
+python3 src/services/fast_mcp/private_server/oauth_server.py
+```
+
+### MCP Integration
+
+Once the OAuth server is running, it must be integrated with the MCP server by providing the address where the OAuth server is running to the MCP server:
+
+```python
+def create_private_server(settings: ServerSettings = ServerSettings()) -> FastMCP:
+
+    token_verifier = IntrospectionTokenVerifier(
+        introspection_endpoint=settings.auth_server_introspection_endpoint,
+        server_url=str(settings.server_url),
+        validate_resource=settings.oauth_strict,  # Only validate when --oauth-strict is set
+    )
+
+    mcp: FastMCP = FastMCP(
+        name="private-example-server",
+        instructions="This server specializes in private operations of user profiles data",
+        debug=True,
+        # Auth configuration for RS mode
+        token_verifier=token_verifier,
+        auth=AuthSettings(
+            issuer_url=settings.auth_server_url,
+            required_scopes=[settings.mcp_scope],
+            resource_server_url=settings.server_url,
+        ),
+    )
+
+```
+
+The MCP requires a `TokenVerifier`, for which a simple one provided by the `mcp_oauth` package is used. In this case, `settings.auth_server_url` must be the address where the OAuth server is running, for example `"http://127.0.0.1:9000"`. For further configuration details, please refer to the code in [`private_server/server.py`](/src/services/fast_mcp/private_server/server.py).
+
+### Configuration
+
+This OAuth server uses a credential-based system for authentication (initial authorization token acquisition). You must fill the `.env` file with the following variables:
+
+```env
+SUPERUSERNAME=user
+SUPERUSERPASSWORD=password
+```
+
 ## Deployment
 
 ### Local Deployment
@@ -100,15 +190,21 @@ To set up the development environment, execute the following commands:
    pip install -r requirements.txt
    ```
 
-**2. Start the server in development mode**
+**2.1 Start the server in development mode**
 
    ```bash
-   uvicorn src.run:app --host 0.0.0.0 --port 8000 --reload
+   uvicorn src.app:app --host 127.0.0.1 --port 8000 --reload
    ```
+
+**2.2 Start the oauth server**
+
+```bash
+python3 src/services/fast_mcp/private_server/oauth_server.py
+```
 
 **3. Verify Proper Server Startup**
 
-To confirm that the server is operating correctly, open a web browser and navigate to the address [http://0.0.0.0:8000](http://0.0.0.0:8000). This should redirect to a user help page that provides guidance on how to use the server.
+To confirm that the server is operating correctly, open a web browser and navigate to the address [http://127.0.0.1:8000](http://127.0.0.1:8000). This should redirect to a user help page that provides guidance on how to use the server.
 
 **4. Run tests**
 
@@ -162,7 +258,7 @@ In the cloned project, locate the `config.json` file in the root directory and a
 {
     "mcp_servers": {
         "example_mcp_server": {
-            "http": "your_http_path (e.g., http://0.0.0.0:8000/server_name/mcp)",
+            "http": "your_http_path (e.g., http://127.0.0.1:8000/server_name/mcp)",
             "name": "server_name (optional)",
             "description": "server_description (optional)"
         }
@@ -170,7 +266,7 @@ In the cloned project, locate the `config.json` file in the root directory and a
 }
 ```
 
-> 💡 **Hint:** Once the server is deployed, you can access its root URL to obtain help. This section provides the exact configuration needed to add the server to the MCP client. For example, opening `http://0.0.0.0:8000` in a browser will redirect to the help page.
+> 💡 **Hint:** Once the server is deployed, you can access its root URL to obtain help. This section provides the exact configuration needed to add the server to the MCP client. For example, opening `http://127.0.0.1:8000` in a browser will redirect to the help page.
 
 **4. Execution**
 

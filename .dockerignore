@@ -2,6 +2,8 @@
 .github
 .gitignore
 .env
+tests/.env
+
 dockerfile
 README.md
 LICENSE

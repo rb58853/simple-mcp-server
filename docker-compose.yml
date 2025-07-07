@@ -1,12 +1,24 @@
 name: "Example MCP Server"
 
 services:
+  server-oauth:
+    image: oauth-server
+    container_name: oauth-server
+    build:
+      context: .
+      dockerfile: dockerfile.oauth
+      tags:
+        - oauth-server
+    restart: unless-stopped
+    ports:
+      - 9000:9000
+    
   server-mcp:
     image: example-mcp-server
     container_name: example-mcp-server
     build:
       context: .
-      dockerfile: dockerfile
+      dockerfile: dockerfile.mcp
       tags:
         - example-mcp-server
     restart: unless-stopped

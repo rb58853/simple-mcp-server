@@ -1,0 +1,17 @@
+FROM python:3.13-slim
+
+# Set working directory
+WORKDIR /
+
+# Copy the rest of the application code
+COPY . .
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expose port
+EXPOSE 9000
+
+# Run the app
+CMD ["python3.13", "src/services/fast_mcp/private_server/oauth_server.py"]
+# CMD ["python3.13", "src/services/fast_mcp/private_server/oauth_server.py", "--host", "127.0.0.1", "--port", "9000"]

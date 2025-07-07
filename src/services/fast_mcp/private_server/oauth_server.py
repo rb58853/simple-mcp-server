@@ -29,5 +29,10 @@ def run_oauth_server():
     oauth_server.run_starlette_server()
 
 
+# @click.command()
+# @click.option("--service", default="server", help="Port to listen on")
+# def main(service: str):
+#     run_oauth_server
+
 if __name__ == "__main__":
     run_oauth_server()

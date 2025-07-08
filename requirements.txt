@@ -2,4 +2,3 @@ uvicorn
 fastapi
 mcp[cli]
 mcp-oauth
-requests

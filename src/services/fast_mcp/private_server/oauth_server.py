@@ -1,4 +1,8 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from mcp_oauth import (
     OAuthServer,
     SimpleAuthSettings,

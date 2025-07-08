@@ -257,10 +257,25 @@ In the cloned project, locate the `config.json` file in the root directory and a
 ```json
 {
     "mcp_servers": {
-        "example_mcp_server": {
-            "http": "your_http_path (e.g., http://127.0.0.1:8000/server_name/mcp)",
-            "name": "server_name (optional)",
-            "description": "server_description (optional)"
+        "example_public_server": {
+            "transport": "httpstream",
+            "httpstream-url": "http://127.0.0.1:8000/public-example-server/mcp",
+            "name": "example-public-server",
+            "description": "Example public server."
+        },
+        "example_private_mcp": {
+            "transport": "httpstream",
+            "httpstream-url": "http://127.0.0.1:8000/private-example-server/mcp",
+            "name": "example-private-server",
+            "description": "Example private server with oauth required.",
+            "auth": {
+                "required": true,
+                "server": "http://127.0.0.1:9000",
+                "secrets": {
+                    "username": "user",
+                    "password": "password"
+                }
+            }
         }
     }
 }

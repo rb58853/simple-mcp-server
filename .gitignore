@@ -1,3 +1,11 @@
+#cache files
 *.cpython-313.pyc
+
+# dev test 
 test.py
+
+#environment variables
 .env
+
+#Data Tokens OAuth
+data

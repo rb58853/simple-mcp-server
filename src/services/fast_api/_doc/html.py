@@ -1,4 +1,5 @@
 """html doc for expose in host"""
+
 end: str = """
 </html>
 """
@@ -243,9 +244,12 @@ def server_info(
     <span class="hljs-string">"{name}"</span>: """
         + "{"
         + f"""
-        <span class="hljs-string">"http"</span>: <span class="hljs-string">"{http_path}"</span>,
+        <span class="hljs-string">"transport"</span>: <span class="hljs-string">"httpstream"</span>,
+        <span class="hljs-string">"httpstream-url"</span>: <span class="hljs-string">"{http_path}"</span>,
         <span class="hljs-string">"name"</span>: <span class="hljs-string">"{name}"</span>,
         <span class="hljs-string">"description"</span>: <span class="hljs-string">"{description}"</span>
+        <span class="hljs-string">"auth"</span>: <span class="hljs-string">"<a href="https://github.com/rb58853/simple-mcp-server">*****"</a></span>
+        
     """
         + """}
     </code></pre>"""

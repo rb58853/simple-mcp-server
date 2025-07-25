@@ -270,8 +270,7 @@ In the cloned project, locate the `config.json` file in the root directory and a
             "description": "Example private server with oauth required.",
             "auth": {
                 "required": true,
-                "server": "http://127.0.0.1:9000",
-                "secrets": {
+                "post_body": {
                     "username": "user",
                     "password": "password"
                 }

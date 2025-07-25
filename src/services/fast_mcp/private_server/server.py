@@ -35,8 +35,10 @@ def create_private_server(settings: ServerSettings = ServerSettings()) -> FastMC
         validate_resource=settings.oauth_strict,  # Only validate when --oauth-strict is set
     )
 
+    name:str = "private-example-server"
+    resource_server_url:AnyHttpUrl = AnyHttpUrl(str(settings.server_url)+name)
     mcp: FastMCP = FastMCP(
-        name="private-example-server",
+        name=name,
         instructions="This server specializes in private operations of user profiles data",
         debug=True,
         # Auth configuration for RS mode
@@ -44,7 +46,7 @@ def create_private_server(settings: ServerSettings = ServerSettings()) -> FastMC
         auth=AuthSettings(
             issuer_url=settings.auth_server_url,
             required_scopes=[settings.mcp_scope],
-            resource_server_url=settings.server_url,
+            resource_server_url=resource_server_url,
         ),
     )
 

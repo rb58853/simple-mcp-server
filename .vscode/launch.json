@@ -25,6 +25,12 @@
             "program": "${workspaceFolder}/src/services/fast_mcp/private_server/oauth_server.py",
         },
         {
+            "name": "Tests",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/tests/run.py",
+        },
+        {
             "name": "Python Debugger: Current File",
             "type": "debugpy",
             "request": "launch",

@@ -19,18 +19,16 @@ def sample_mcp_client():
     # Es necesario tener un servidor MCP corriendo en la direccion http://127.0.0.1:8000//example-server/mcp por httpstream
     server_url: str = "http://127.0.0.1:8000/private-example-server/mcp"
 
-    # Es necesario tener un servidor OAuth corriendo en la direccion http://localhost:9000
-    oauth_server_url: str = "http://127.0.0.1:9000"
-
-    user: str = os.getenv("SUPERUSERNAME")
-    password: str = os.getenv("SUPERUSERPASSWORD")
+    body: dict = {
+        "username": os.getenv("SUPERUSERNAME"),
+        "password": os.getenv("SUPERUSERPASSWORD"),
+    }
 
     # Puedes pasarle los credenciales opcionalmente para login automatico, en caso de no pasarle los credenciales, se abrira una pagina en el navegador para hacer el login manual
     oauth_client: OAuthClient = OAuthClient(
         client_name="sample_client",
-        server_url=oauth_server_url,
-        # authorized_username=user,
-        # authorized_username_password=password,
+        mcp_server_url=server_url,
+        body=body,
     )
 
     async def open_session():

@@ -1,4 +1,5 @@
 from mcp.server.fastmcp import FastMCP
+from mcp.types import PromptMessage, TextContent
 
 
 def public_server() -> FastMCP:
@@ -47,18 +48,16 @@ def public_server() -> FastMCP:
         name="summarize_user_profile",
         description="Summarizes the user profile based on the provided data.",
     )
-    async def summarize_user_profile(user_name: str, email: str):
-        return {
-            "messages": [
-                {
-                    "role": "user",
-                    "content": {
-                        "type": "text",
-                        "text": f"Summarize the following user profile:\nName: {user_name}\nEmail: {email}",
-                    },
-                }
-            ]
-        }
+    async def summarize_user_profile(user_name: str, email: str) -> list[PromptMessage]:
+        return [
+            PromptMessage(
+                role="user",
+                content=TextContent(
+                    type="text",
+                    text=f"Summarize the following user profile:\nName: {user_name}\nEmail: {email}",
+                ),
+            )
+        ]
 
     return mcp
 
